@@ -51,11 +51,11 @@ test_songs_list = 'lists/test_songs_list_ours.txt'
 # Create directories for the models & weights
 if not os.path.exists(model_path):
     os.makedirs(model_path)
-    print 'Path created: ', model_path
+    print ('Path created: ', model_path)
 
 if not os.path.exists(weights_path):
     os.makedirs(weights_path)
-    print 'Path created: ', weights_path
+    print ('Path created: ', weights_path)
 
 # Divide the song into multiple frames of 29.1s or take the center crop.
 if MULTIFRAMES:
@@ -69,7 +69,7 @@ else:
 
 if LOAD_DB:
     if MULTIFRAMES:
-        print 'Loading dataset multiframe...'
+        print ('Loading dataset multiframe...')
         X_train,  y_train, num_frames_train  = load_dataset('')
         X_test, y_test, num_frames_test = load_dataset('')
     else:
@@ -99,8 +99,8 @@ if SAVE_DB:
 Y_train = np_utils.to_categorical(y_train, nb_classes)
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
-print 'Shape labels y_train: ', Y_train.shape
-print 'Shape labels y_test: ', Y_test.shape
+print ('Shape labels y_train: ', Y_train.shape)
+print ('Shape labels y_test: ', Y_test.shape)
 
 
 
@@ -187,7 +187,7 @@ if TRAIN:
 
 if TEST:
     t0 = time.time()
-    print 'Predicting...','\n'
+    print ('Predicting...','\n')
 
     real_labels_mean = load_gt(test_gt_list)
     real_labels_frames = y_test
@@ -202,10 +202,10 @@ if TEST:
     previous_numFrames = 0
     n=0
     for i in range(0, num_frames_test.shape[0]):
-        print song_paths[i]
+        print (song_paths[i])
 
         num_frames=num_frames_test[i]
-        print 'Num_frames: ', str(num_frames),'\n'
+        print ('Num_frames: ', str(num_frames),'\n')
 
         results[previous_numFrames:previous_numFrames+num_frames] = model.predict(
             X_test[previous_numFrames:previous_numFrames+num_frames, :, :, :])
@@ -222,7 +222,7 @@ if TEST:
             n+=1
 
 
-        print '\n',"Mean of the song: "
+        print ('\n',"Mean of the song: ")
         results_song = results[previous_numFrames:previous_numFrames+num_frames]
 
         mean=results_song.mean(0)
@@ -231,16 +231,16 @@ if TEST:
         predicted_label_mean=predict_label(mean)
 
         predicted_labels_mean[i]=predicted_label_mean
-        print '\n','Predicted label: ', str(tags[predicted_label_mean]),'\n'
+        print ('\n','Predicted label: ', str(tags[predicted_label_mean]),'\n')
 
         if predicted_label_mean != real_labels_mean[i]:
-            print 'WRONG!!'
+            print ('WRONG!!')
 
 
         previous_numFrames = previous_numFrames+num_frames
 
         #break
-        print '\n\n\n'
+        print ('\n\n\n')
 
     cnf_matrix_frames = confusion_matrix(real_labels_frames, predicted_labels_frames)
     plot_confusion_matrix(cnf_matrix_frames, classes=tags, title='Confusion matrix (frames)')
