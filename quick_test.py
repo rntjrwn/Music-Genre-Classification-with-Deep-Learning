@@ -50,7 +50,7 @@ num_frames_test = np.array(num_frames_test)
 
 t0 = time.time()
 
-print '\n--------- Predicting ---------','\n'
+print ('\n--------- Predicting ---------','\n')
 
 results = np.zeros((X_test.shape[0], tags.shape[0]))
 predicted_labels_mean = np.zeros((num_frames_test.shape[0], 1))
@@ -61,10 +61,10 @@ song_paths = open(test_songs_list, 'r').read().splitlines()
 previous_numFrames = 0
 n=0
 for i in range(0, num_frames_test.shape[0]):
-    print 'Song number' +str(i)+ ': ' + song_paths[i]
+    print ('Song number' +str(i)+ ': ' + song_paths[i])
 
     num_frames=num_frames_test[i]
-    print 'Num_frames of 30s: ', str(num_frames),'\n'
+    print ('Num_frames of 30s: ', str(num_frames),'\n')
 
     results[previous_numFrames:previous_numFrames+num_frames] = model.predict(
         X_test[previous_numFrames:previous_numFrames+num_frames, :, :, :])
@@ -74,8 +74,8 @@ for i in range(0, num_frames_test.shape[0]):
         #normalize the results
         total = results[j,:].sum()
         results[j,:]=results[j,:]/total
-        print 'Percentage of genre prediction for seconds '+ str(20+s_counter*30) + ' to ' \
-            + str(20+(s_counter+1)*30) + ': '
+        print ('Percentage of genre prediction for seconds '+ str(20+s_counter*30) + ' to ' \
+            + str(20+(s_counter+1)*30) + ': ')
         sort_result(tags, results[j,:].tolist())
 
         predicted_label_frames=predict_label(results[j,:])
@@ -83,7 +83,7 @@ for i in range(0, num_frames_test.shape[0]):
         s_counter += 1
         n+=1
 
-    print '\n', 'Mean genre of the song: '
+    print ('\n', 'Mean genre of the song: ')
     results_song = results[previous_numFrames:previous_numFrames+num_frames]
 
     mean=results_song.mean(0)
@@ -92,18 +92,18 @@ for i in range(0, num_frames_test.shape[0]):
     predicted_label_mean=predict_label(mean)
 
     predicted_labels_mean[i]=predicted_label_mean
-    print '\n','The predicted music genre for the song is', str(tags[predicted_label_mean]),'!\n'
+    print ('\n','The predicted music genre for the song is', str(tags[predicted_label_mean]),'!\n')
 
     previous_numFrames = previous_numFrames+num_frames
 
-    print '************************************************************************************************'
+    print ('************************************************************************************************')
 
 colors = ['b','g','c','r','m','k','y','#ff1122','#5511ff','#44ff22']
 fig, ax = plt.subplots()
 index = np.arange(tags.shape[0])
 opacity = 1
 bar_width = 0.2
-print mean
+print (mean)
 #for g in range(0, tags.shape[0]):
 plt.bar(left=index, height=mean, width=bar_width, alpha=opacity, color=colors)
 
