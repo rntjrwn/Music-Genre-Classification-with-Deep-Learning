@@ -42,8 +42,8 @@ def sort_result(tags, preds):
     for name, score in sorted_result:
         score = np.array(score)
         score *= 100
-        print name, ':', '%5.3f  ' % score, '   ',
-    print
+        print (name, ':', '%5.3f  ' % score, '   ')
+    
 
 
 def predict_label(preds):
@@ -69,7 +69,7 @@ def plot_confusion_matrix(cnf_matrix, classes, title):
 
     cnf_matrix=10000*cnf_matrix/cnfm_suma_matrix
     cnf_matrix=cnf_matrix/(100*1.0)
-    print cnf_matrix
+    print (cnf_matrix)
 
     #print map(truediv,cnf_matrix, cnfm_suma_matrix)
 
@@ -106,12 +106,12 @@ def extract_melgrams(list_path, MULTIFRAMES, process_all_song, num_songs_genre):
     labels = list()
     num_frames_total = list()
     for song_ind, song_path in enumerate(song_paths):
-        print song_path
+        print (song_path)
         if MULTIFRAMES:
             melgram = ap.compute_melgram_multiframe(song_path, process_all_song)
             num_frames = melgram.shape[0]
             num_frames_total.append(num_frames)
-            print 'num frames:', num_frames
+            print ('num frames:', num_frames)
             if num_songs_genre != '':
                 index = int(floor(song_ind/num_songs_genre))
                 for i in range(0, num_frames):
